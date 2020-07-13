@@ -20,17 +20,17 @@
 #include "TicTacToe.hpp"
 #include "ctinterface-utils.hpp"
 
-
+    
 int main()
 {
-	#define ShowGamePlay true
+    #define ShowGamePlay
 
-	uint8_t CurrentPlayer{0};
-	uint32_t NumberOfGames{1'000'000};
-	uint32_t Iterator1{0};
-	uint32_t Status[]{0, 0, 0};
-	uint16_t CurrentGameStatus{0};
-	uint32_t Counter{0};
+    uint8_t CurrentPlayer{0};
+    uint32_t NumberOfGames{1'000'000};
+    uint32_t Iterator1{0};
+    uint32_t Status[]{0, 0, 0};
+    uint16_t CurrentGameStatus{0};
+    uint32_t Counter{0};
 
     std::string GameTitle{"Tic Tac Toe - ver7 - By The Joyful Programmer"};
 
@@ -42,38 +42,37 @@ int main()
         GameTitle += " (Linux Version)";
     #endif // __linux__
 
-	// These game messages correspond to the return value from Game Status. 0, 1, 2, 3
-	std::vector<std::string> GameMessages{"Next player get ready!", "Player X Wins!", "Player Y Wins!", "Game is a Tie!"};
+    // These game messages correspond to the return value from Game Status. 0, 1, 2, 3
+    std::vector<std::string> GameMessages{"Next player get ready!", "Player X Wins!", "Player Y Wins!", "Game is a Tie!"};
 
-	std::time_t StartTimer;
-	std::time_t EndTimer;
+    std::time_t StartTimer;
+    std::time_t EndTimer;
 
     ctinterface::SetCtInterfaceTitle(GameTitle);
     ctinterface::SetCtInterfaceColors(BrightYellow, Blue);
 
-	std::srand(time(NULL));
+    std::srand(time(NULL));
 
-	time(&StartTimer);
+    time(&StartTimer);
 
-	for(Iterator1 = 0; Iterator1 < NumberOfGames; Iterator1++)
-	{
-		// Start a new Tic Tac Toe game
-		t3::ResetBoard();
+    for(Iterator1 = 0; Iterator1 < NumberOfGames; Iterator1++)
+    {
+        // Start a new Tic Tac Toe game
+        t3::ResetBoard();
 
-		ctinterface::SetCursor(0, 0);
+        ctinterface::SetCursor(0, 0);
 
-        if(ShowGamePlay)
-        {
+        #ifdef ShowGamePlay
             ctinterface::ClearScreen();
-        }
+        #endif
 
-		// Have the game engine play one game with itself.
-		// This DO...WHILE loop should be self explanatory.
-		do
-		{
-			t3::AiPickRandomPosition(CurrentPlayer);
-			CurrentPlayer = (CurrentPlayer + 1) % 2;
-			CurrentGameStatus = t3::GameStatus();
+        // Have the game engine play one game with itself.
+        // This DO...WHILE loop should be self explanatory.
+        do
+        {
+            t3::AiPickRandomPosition(CurrentPlayer);
+            CurrentPlayer = (CurrentPlayer + 1) % 2;
+            CurrentGameStatus = t3::GameStatus();
 
             #ifdef ShowGamePlay
                 ctinterface::SetCursor(0, 0);
@@ -82,69 +81,71 @@ int main()
 
                 std::this_thread::sleep_for(std::chrono::milliseconds(1000));
             #endif
-		} while (CurrentGameStatus == 0);
+        } while (CurrentGameStatus == 0);
 
-		// Increment either the "PlayerX Wins", "PlayerY Wins", or "Tie Game" counter
-		// so we can keep track of them.
-		Status[CurrentGameStatus - 1]++;
+        // Increment either the "PlayerX Wins", "PlayerY Wins", or "Tie Game" counter
+        // so we can keep track of them.
+        Status[CurrentGameStatus - 1]++;
 
-		time(&EndTimer);
-		EndTimer -= StartTimer;
+        time(&EndTimer);
+        EndTimer -= StartTimer;
 
-		// Prevent the game stat message from updating until all games have played.
-		// This will give us the actual time it took to play those games.
-		//if((Counter % (NumberOfGames - 1)) == 0) // COMMENT THIS OUT IF YOU WANT
-		//{                                        // TO SEE A GAME BY GAME PLAY.
-
+        // Prevent the game stat message from updating until all games have played.
+        // This will give us the actual time it takes to play those games.
+        #ifndef ShowGamePlay
+        if((Counter % (NumberOfGames - 1)) == 0) // COMMENT THIS OUT IF YOU WANT
+        {                                        // TO SEE A GAME BY GAME PLAY.
+        #endif
+        
            ctinterface::SetCursor(0, 0);
 
-			// Print the Tic Tac Toe playing board
             ctinterface::Color(BrightYellow);
-			std::cout << t3::BoardDisplay;
+            std::cout << t3::BoardDisplay;
 
-			// The following statements should be self-explanatory
             ctinterface::Color(BrightBlue);
-			ctinterface::SetCursor(0, 13);
-			std::cout << GameMessages[CurrentGameStatus] << "          ";
+            ctinterface::SetCursor(0, 13);
+            std::cout << GameMessages[CurrentGameStatus] << "          ";
 
-			ctinterface::SetCursor(27, 2);
-			std::cout << (Iterator1 + 1) << " of " << NumberOfGames;
+            ctinterface::SetCursor(27, 2);
+            std::cout << (Iterator1 + 1) << " of " << NumberOfGames;
 
-			ctinterface::SetCursor(27, 5);
-			std::cout << "Game Status: " << CurrentGameStatus;
+            ctinterface::SetCursor(27, 5);
+            std::cout << "Game Status: " << CurrentGameStatus;
 
-			ctinterface::SetCursor(27, 7);
-			std::cout << "X Wins: " << Status[0];
+            ctinterface::SetCursor(27, 7);
+            std::cout << "X Wins: " << Status[0];
 
-			ctinterface::SetCursor(27, 9);
-			std::cout << "Y Wins: " << Status[1];
+            ctinterface::SetCursor(27, 9);
+            std::cout << "Y Wins: " << Status[1];
 
-			ctinterface::SetCursor(29, 11);
-			std::cout << "Ties: " << Status[2];
+            ctinterface::SetCursor(29, 11);
+            std::cout << "Ties: " << Status[2];
 
-			ctinterface::SetCursor(28, 13);
-			std::cout << "Timer: " << EndTimer << " seconds...";
+            ctinterface::SetCursor(28, 13);
+            std::cout << "Timer: " << EndTimer << " seconds...";
 
-			// We need to use the std::endl function just once so we know the terminal is
-			// updated correctly when we want to print this information a lot in a short
-			// period of time. This is the only time I ever had to use this function in a
-			// real project.
-			std::cout << std::endl;
+            // We need to use the std::endl function just once so we know the terminal is
+            // updated correctly when we want to print this information a lot in a short
+            // period of time. This is the only time I ever had to use this function in a
+            // real project.
+            std::cout << std::endl;
 
-			// Pause the demo long enough to see the current information.
-			//std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+            // Pause the demo long enough to see the current information.
+            //std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 
             #ifdef ShowGamePlay
                 std::this_thread::sleep_for(std::chrono::milliseconds(3000));
             #endif // ShowGamePlay
 
-		//}
+        #ifndef ShowGamePlay
+        }
+        #endif
+        
+        Counter++;
+    }
 
-		Counter++;
-	}
+    ctinterface::SetCursor(0, 20);
 
-	ctinterface::SetCursor(0, 20);
-
-	// Pause the program so it does not close too quickly.
-	//std::this_thread::sleep_for(std::chrono::milliseconds(20000));
+    // Pause the program so it does not close too quickly.
+    //std::this_thread::sleep_for(std::chrono::milliseconds(20000));
 }
