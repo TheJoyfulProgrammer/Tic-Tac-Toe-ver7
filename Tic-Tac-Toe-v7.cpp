@@ -23,7 +23,7 @@
     
 int main()
 {
-    #define ShowGamePlay
+    //#define ShowGamePlay
 
     uint8_t CurrentPlayer{0};
     uint32_t NumberOfGames{1'000'000};
