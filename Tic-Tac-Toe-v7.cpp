@@ -23,6 +23,7 @@
     
 int main()
 {
+    // remove the comments in the line below to watch the game play itself.
     //#define ShowGamePlay
 
     uint8_t CurrentPlayer{0};
@@ -89,7 +90,9 @@ int main()
 
         time(&EndTimer);
         EndTimer -= StartTimer;
-
+        
+        //std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+        
         // Prevent the game stat message from updating until all games have played.
         // This will give us the actual time it takes to play those games.
         #ifndef ShowGamePlay

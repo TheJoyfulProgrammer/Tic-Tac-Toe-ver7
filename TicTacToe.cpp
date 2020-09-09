@@ -61,22 +61,22 @@ namespace t3
         // Unrolled loops here... This is the fastest possible method to calculate wins.
         // This uses simple bit logic mathematics to determine if either player has won, which allows us to test
         // for a win in one statement, instead of a ton of IF...ELSE statements.
-        uint8_t PlayerWins = ((t3::GameBoard & t3::WinPositions[0]) == t3::WinPositions[0]) |
-                             (((t3::GameBoard & (t3::WinPositions[0] << 1)) == (t3::WinPositions[0] << 1)) << 1) |
-                             ((t3::GameBoard & t3::WinPositions[1]) == t3::WinPositions[1]) |
-                             (((t3::GameBoard & (t3::WinPositions[1] << 1)) == (t3::WinPositions[1] << 1)) << 1) |
-                             ((t3::GameBoard & t3::WinPositions[2]) == t3::WinPositions[2]) |
-                             (((t3::GameBoard & (t3::WinPositions[2] << 1)) == (t3::WinPositions[2] << 1)) << 1) |
-                             ((t3::GameBoard & t3::WinPositions[3]) == t3::WinPositions[3]) |
-                             (((t3::GameBoard & (t3::WinPositions[3] << 1)) == (t3::WinPositions[3] << 1)) << 1) |
-                             ((t3::GameBoard & t3::WinPositions[4]) == t3::WinPositions[4]) |
-                             (((t3::GameBoard & (t3::WinPositions[4] << 1)) == (t3::WinPositions[4] << 1)) << 1) |
-                             ((t3::GameBoard & t3::WinPositions[5]) == t3::WinPositions[5]) |
-                             (((t3::GameBoard & (t3::WinPositions[5] << 1)) == (t3::WinPositions[5] << 1)) << 1) |
-                             ((t3::GameBoard & t3::WinPositions[6]) == t3::WinPositions[6]) |
-                             (((t3::GameBoard & (t3::WinPositions[6] << 1)) == (t3::WinPositions[6] << 1)) << 1) |
-                             ((t3::GameBoard & t3::WinPositions[7]) == t3::WinPositions[7]) |
-                             (((t3::GameBoard & (t3::WinPositions[7] << 1)) == (t3::WinPositions[7] << 1)) << 1);
+        uint8_t PlayerWins =  ((t3::GameBoard & t3::WinPositionsP1[0]) == t3::WinPositionsP1[0]) |
+                             (((t3::GameBoard & t3::WinPositionsP2[0]) == t3::WinPositionsP2[0]) << 1) |
+                              ((t3::GameBoard & t3::WinPositionsP1[1]) == t3::WinPositionsP1[1]) |
+                             (((t3::GameBoard & t3::WinPositionsP2[1]) == t3::WinPositionsP2[1]) << 1) |
+                              ((t3::GameBoard & t3::WinPositionsP1[2]) == t3::WinPositionsP1[2]) |
+                             (((t3::GameBoard & t3::WinPositionsP2[2]) == t3::WinPositionsP2[2]) << 1) |
+                              ((t3::GameBoard & t3::WinPositionsP1[3]) == t3::WinPositionsP1[3]) |
+                             (((t3::GameBoard & t3::WinPositionsP2[3]) == t3::WinPositionsP2[3]) << 1) |
+                              ((t3::GameBoard & t3::WinPositionsP1[4]) == t3::WinPositionsP1[4]) |
+                             (((t3::GameBoard & t3::WinPositionsP2[4]) == t3::WinPositionsP2[4]) << 1) |
+                              ((t3::GameBoard & t3::WinPositionsP1[5]) == t3::WinPositionsP1[5]) |
+                             (((t3::GameBoard & t3::WinPositionsP2[5]) == t3::WinPositionsP2[5]) << 1) |
+                              ((t3::GameBoard & t3::WinPositionsP1[6]) == t3::WinPositionsP1[6]) |
+                             (((t3::GameBoard & t3::WinPositionsP2[6]) == t3::WinPositionsP2[6]) << 1) |
+                              ((t3::GameBoard & t3::WinPositionsP1[7]) == t3::WinPositionsP1[7]) |
+                             (((t3::GameBoard & t3::WinPositionsP2[7]) == t3::WinPositionsP2[7]) << 1);
 
         // Return value: GameStillPlayable = 0, PlayerXWins = 1, PlayerYWins = 2, GameTime = 3
         // The "Tie Game" is only determined if all spots have been played.
