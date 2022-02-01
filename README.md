@@ -1,5 +1,5 @@
 # Tic-Tac-Toe-ver7
-A highly optimized Tic Tac Toe game, written in C++ ver7, with tons of features. It works in Linux and Windows.
+A highly optimized Tic Tac Toe game, written in C++ ver17, with tons of features. It works in Linux and Windows.
 
 This game can be compiled with the GCC compiler toolchain, ver 9.3, in Linux, and with the TDM-GCC compiler toolchain, ver 9.0, in Windows. It will not compile with the MingW compiler toolchain when you use the "std::this_thread" function.
 
